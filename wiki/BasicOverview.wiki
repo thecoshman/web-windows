@@ -17,7 +17,11 @@ To start using the window manager, you will need to run this following JS line o
 Window_manager.new_window().hide().load_xml('menu.php').display().bring_to_front();
 
 Window_manager.new_window() --> This create our new window object
+
 .hide() --> This hides the window whilst we load the content, slightly improves looks
+
 .load_xml('menu.php')  --> this loads the file 'menu.xml' then processes it, extracting style information for this window and the actual main content for it.
+
 .display() --> This makes the window visible again
+
 .bring_to_front(); --> like it says, brings the window to the front of all other window, useful when you have just opened a window really.
