@@ -1,0 +1,23 @@
+#summary One-sentence summary of this page.
+#labels Featured,Phase-Implementation,Phase-Deploy
+
+= Introduction =
+
+A rough overview of how to use this library
+
+
+= Details =
+
+With in your Index page (or what ever your main html page is) you will need to include the main javacript library, 'css3-window.js', and the default window styleing, 'css-windows.css'. You are also going to need to have Jquery working, at the moment, this windoing library is being built with version 1.4.2, it may work with older version but I have not tested this, if/when a later version comes out, I will update to it, I will use any new features, I will work around any features that have been removed.
+
+The code library has three main class, 'Browser', 'Window_manger' and 'Window'. Browser provides some useful information about the browser and some basic browser related functions, such as the width of the actual working area of the window and mouse position. Window_manager stores an array of windows and handles the initial creation and iterating though the windows to do things such as find the top window. These first two classes are both initialised as an object 'browser' and 'Window_manager' respectively.
+
+To start using the window manager, you will need to run this following JS line of code
+
+Window_manager.new_window().hide().load_xml('menu.php').display().bring_to_front();
+
+Window_manager.new_window() --> This create our new window object
+.hide() --> This hides the window whilst we load the content, slightly improves looks
+.load_xml('menu.php')  --> this loads the file 'menu.xml' then processes it, extracting style information for this window and the actual main content for it.
+.display() --> This makes the window visible again
+.bring_to_front(); --> like it says, brings the window to the front of all other window, useful when you have just opened a window really.
