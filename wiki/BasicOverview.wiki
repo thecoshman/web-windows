@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Basic Guide to using web-windows
 #labels Featured,Phase-Implementation,Phase-Deploy
 
 = Introduction =
