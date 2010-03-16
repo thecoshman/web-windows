@@ -36,13 +36,15 @@ if(isset($_POST["window_ID"]) AND $_POST["window_ID"] != null){
 
 You may notice that this code sample actually started with a snippet of PHP. A standard feature of the library is add a POST variable containing the ID for the window loading this content. This allows you to adjust your Javascript code so it can reference the window within which it is running. I will try to explain this better some where else.
 
-Apart from that PHP, the file is a 'standard' XML file. The tags are optional, but if you do not use a tag, such as <close> then it will be left as what ever the window was when you loaded this XML file.
+Apart from that PHP, the file is a 'standard' XML file. The tags are optional, but if you do not use a tag, such as `<close>` then it will be left as what ever the window was when you loaded this XML file.
 
 || Tag || Purpose ||
-|| <page> || Defines one page/window of data ||
-|| <window_title> || This sets the title of this window ||
-|| <controls> || A tag to contain other tags that enable/disable controls ||
-|| <close> || Sets if this window can be closed or not ||
-|| <roll> || Sets if this window can be rolled up or not ||
-|| <window_style> || A tag to contain other tags that style this window ||
-|| <width> || The width of the window (with standard CSS units) can be set to AUTO as well ||
+|| `<page>` || Defines one page/window of data ||
+|| `<window_title>` || This sets the title of this window ||
+|| `<controls>` || A tag to contain other tags that enable/disable controls ||
+|| `<close>` || Sets if this window can be closed or not ||
+|| `<roll>` || Sets if this window can be rolled up or not ||
+|| `<window_style>` || A tag to contain other tags that style this window ||
+|| `<width>` || The width of the window (with standard CSS units) can be set to AUTO as well ||
+|| `<xpos>` & `<ypos>` || Both of these set the left and top distance for the window (using standard CSS units. Can also be set to auto to centre in the respective axis ||
+|| `<content>` || Holds the actual content that will be displayed in the main body of the window, this is where your normal HTML will go ||
