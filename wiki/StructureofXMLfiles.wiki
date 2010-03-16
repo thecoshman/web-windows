@@ -1,0 +1,39 @@
+#summary How to format your XML files for use with this windowing system
+
+= Introduction =
+
+This library can use AJAX technology to load the content for your windows. This gives you all of the usual advantages of using AJAX, such as content being loaded as needed and reducing initial page load times.
+
+You can just load raw HTML files into a window, but you will almost always want to set the title for your window, as well as other styling properties, such as position and size.
+
+= Details =
+
+Here is a basic template for an XML file for use in this system.
+
+{{{
+<?php
+$window_ID = -1;
+if(isset($_POST["window_ID"]) AND $_POST["window_ID"] != null){
+  $window_ID = trim($_POST["window_ID"]);
+}
+?><?xml version="1.0" encoding="ISO-8859-!"?>
+<page>
+  <window_title>* Title for this window *</window_title>
+  <controls>
+    <close>enable</close>
+    <roll>enable</roll>
+  </controls>
+  <window_style>
+    <width>600px</width>
+    <xpos>center</xpos>
+    <ypos>10px</ypos>
+  </window_style>
+  <content>
+
+  </content>
+</page>
+}}}
+
+You may notice that this code sample actually started with a snippet of PHP. A standard feature of the library is add a POST variable containing the ID for the window loading this content. This allows you to adjust your Javascript code so it can reference the window within which it is running. I will try to explain this better some where else.
+
+Apart from that PHP, the file is a 'standard' XML file.
