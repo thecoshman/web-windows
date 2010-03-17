@@ -3,4 +3,4 @@
 
 Look over the structure of the source code
 
-browser.js
+[JSbrowser browser.js]
