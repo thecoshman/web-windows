@@ -99,18 +99,20 @@ function Window(window_id){
       else if(browser.isNS){
         browser_window_width = window.innerWidth;
       }
-      this.xpos = (browser_window_width / 2) - (get_numeric_value(this.get_width()) / 2) + "px";
+      this.xpos = (browser_window_width / 2) - (parseInt(this.get_width(),10) / 2) + "px";
       return true;
     }
-    if(!get_numeric_value(value) || !get_unit(value)){
+    if(isNaN(parseInt(value)) || !get_unit(value)){
       alert("Not a valid unit and/or value");
       return false;
     }
 	if(parseInt(value,10) < 0){
+	  /* This check stops the window going off the left of the screen */
 	  this.xpos = "0px";
 	  return true;
 	}
 	if((parseInt(value,10) + parseInt(this.get_width(), 10)) > browser.get_width()){
+	  /* This check stops the window going off the right of the screen */
 	  this.xpos = parseInt(browser.get_width(),10) - parseInt(this.get_width(), 10) + "px";
 	  return true;
 	}
@@ -140,12 +142,13 @@ function Window(window_id){
       this.ypos = (browser_window_height / 2) - (this.base_element.offsetHeight / 2) + "px";
       return true;
     }
-    if(!get_numeric_value(value) || !get_unit(value))
+    if(isNaN(parseInt(value)) || !get_unit(value))
     {
       alert("Not a valid unit and/or value");
       return false;
     }
 	if(parseInt(value,10) < 0){
+	  /* This check stops the window going of the top of the screen */
 	  this.ypos = "0px";
 	  return true;
 	}
@@ -157,12 +160,12 @@ function Window(window_id){
   }
   this.set_width = function(value){
     if(value == "auto")
-    {
+	{
 	  this.width = "auto";
       return true;
     }
-    if(!get_numeric_value(value) || !get_unit(value))
-    {
+    if(isNaN(parseInt(value)) || !get_unit(value))
+	{
       alert("Not a valid unit and/or value");
       return false;
     }
@@ -389,9 +392,10 @@ function Window(window_id){
             }
           }
         break;
-	case "WINDOW_STYLE":
+	    case "WINDOW_STYLE":
+		  /* It may be nice to add in the abbility to lock the style so that when the XML is loaded, only content changes */
           style_props = {}
-	  for(j = 0; j < node.childNodes.length; j = j + 1){
+	      for(j = 0; j < node.childNodes.length; j = j + 1){
             style = node.childNodes[j];
             switch(style.nodeName)
             {
@@ -418,7 +422,7 @@ function Window(window_id){
             }
           }
           $(this.base_element).animate( style_props , "250");
-	break;
+	    break;
         case "CONTENT":
           this.window_cont.innerHTML = node.innerHTML;
         break;
@@ -504,26 +508,7 @@ function addslashes(str){
   str=str.replace(/\0/g,'\\0');
   return str;
 }
-function get_numeric_value(value){
-  if((value == "auto") || (value == "inherit"))
-  {
-    return value;
-  }
-  end_of_string = value.substring(value.length - 2);
-  if ((end_of_string == "px") || (end_of_string == "em") || (end_of_string == "ex") || (end_of_string == "in") || (end_of_string == "cm") || (end_of_string == "mm") || (end_of_string == "pt") || (end_of_string == "pc"))
-  {
-    if(!isNaN(value.substring(0, value.length -2)))
-    {
-	  return value.substring(0, value.length -2);
-    }
-  }
-  end_of_string = value.substring(value.length - 1);
-  if((value.substring(value.length - 1) == "%") && !isNaN(value.substring(0, value.length -2)))
-  {
-	return value.substring(0, value.length -1);
-  }
-  return false;
-}
+
 function get_unit(value){
   if((value == "auto") || (value == "inherit"))
   {
