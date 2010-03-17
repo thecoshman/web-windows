@@ -416,6 +416,11 @@ function Window(window_id){
 				  style_props["width"] = this.get_width();
 				}
 		      break;
+			  case "HEIGHT":
+			    if(this.set_height(style.innerHTML)){
+				  style_props["height"] = this.get_width();
+				}
+		      break;
               default:
                 alert("Unknown window style property:" + style.nodeName);
               break;
@@ -508,7 +513,6 @@ function addslashes(str){
   str=str.replace(/\0/g,'\\0');
   return str;
 }
-
 function get_unit(value){
   if((value == "auto") || (value == "inherit"))
   {
