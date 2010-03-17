@@ -175,8 +175,19 @@ function Window(window_id){
   this.get_width = function(){
     return this.width;
   }
-  this.set_height = function(){
-    
+  this.set_height = function(value){
+    if(value == "auto")
+	{
+	  this.height = "auto";
+	  return true;
+	}
+	if(isNaN(parseInt(value)) || !get_unit(value))
+	{
+	  alert("Not a valid unit and/or value");
+	  return false;
+	}
+	this.height = value;
+	return true;
   }
   this.get_height = function(){
     return this.height;
