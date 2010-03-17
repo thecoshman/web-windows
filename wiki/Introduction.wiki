@@ -4,3 +4,9 @@
 Look over the structure of the source code
 
 [JSbrowser browser.js]
+
+[JSwindow window.js]
+
+[JSwindowManager window_browser.js]
+
+[CSSwebWindows web-windows.css]
