@@ -1,0 +1,6 @@
+#summary Start of wiki
+#labels Featured
+
+Look over the structure of the source code
+
+browser.js
