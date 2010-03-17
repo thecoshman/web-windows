@@ -39,6 +39,8 @@ margin:0px -20px 0px -10px;
 position:fixed;
 }
 div.window{
+opacity:0;
+filter:alpha(opacity=0);
 position:fixed;
 background-color:white;
 border-color:rgb(0,0,255);
@@ -61,8 +63,8 @@ div.window_bar_rolled{
 border-radius:6px;
 }
 div.window_cont{
-padding:0px 2px 0px 2px;
 overflow:auto;
+padding:0px 2px 0px 2px;
 }
 div.window_cont_buffer{
 display:none;

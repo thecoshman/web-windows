@@ -88,35 +88,28 @@ function Window(window_id){
   }
   this.set_xpos = function(value){
     if(value == "auto"){
-      alert("Currently not sure how to handed a 'left' value being set to auto, this it is not set");
+      alert("Currently not sure how to handle a 'left' value being set to auto, this it is not set");
       return false;
     }
     if(value == "center"){
-      var browser_window_width = 0;
-      if(browser.isIE){
-        browser_window_width = document.body.offsetWidth;
-      }
-      else if(browser.isNS){
-        browser_window_width = window.innerWidth;
-      }
-      this.xpos = (browser_window_width / 2) - (parseInt(this.get_width(),10) / 2) + "px";
-      return true;
+      this.xpos = (browser.width / 2) - (parseInt(this.get_width(),10) / 2) + "px";
     }
-    if(isNaN(parseInt(value)) || !get_unit(value)){
-      alert("Not a valid unit and/or value");
+    else if(isNaN(parseInt(value)) || !get_unit(value)){
       return false;
     }
-	if(parseInt(value,10) < 0){
+	else if(parseInt(value,10) < 0){
 	  /* This check stops the window going off the left of the screen */
 	  this.xpos = "0px";
-	  return true;
 	}
-	if((parseInt(value,10) + parseInt(this.get_width(), 10)) > browser.get_width()){
+	else if((parseInt(value,10) + parseInt(this.get_width(), 10)) > browser.get_width()){
 	  /* This check stops the window going off the right of the screen */
 	  this.xpos = parseInt(browser.get_width(),10) - parseInt(this.get_width(), 10) + "px";
-	  return true;
 	}
-	this.xpos = value;
+	else
+	{
+	  this.xpos = value;
+	}
+	this.base_element.style.left = this.get_xpos();
     return true;
   }
   this.get_xpos = function(){
@@ -128,31 +121,24 @@ function Window(window_id){
       alert("Currently not sure how to deal with a 'left' value being set to auto, this it is not set");
       return false;
     }
-    if(value == "center")
+    else if(value == "center")
     {
-      var browser_window_height = 0;
-      if(browser.isIE)
-      {
-        browser_window_height = document.body.offsetHeight;
-      }
-      else if(browser.isNS)
-      {
-        browser_window_height = window.innerHeight;
-      }
-      this.ypos = (browser_window_height / 2) - (this.base_element.offsetHeight / 2) + "px";
-      return true;
+      this.ypos = (browser.height / 2) - (this.base_element.offsetHeight / 2) + "px";
     }
-    if(isNaN(parseInt(value)) || !get_unit(value))
+    else if(isNaN(parseInt(value)) || !get_unit(value))
     {
       alert("Not a valid unit and/or value");
       return false;
     }
-	if(parseInt(value,10) < 0){
+	else if(parseInt(value,10) < 0){
 	  /* This check stops the window going of the top of the screen */
 	  this.ypos = "0px";
-	  return true;
 	}
-    this.ypos = value;
+	else
+	{
+      this.ypos = value;
+	}
+	this.base_element.style.top = this.get_ypos();
     return true;
   }
   this.get_ypos = function(){
@@ -166,10 +152,11 @@ function Window(window_id){
     }
     if(isNaN(parseInt(value)) || !get_unit(value))
 	{
-      alert("Not a valid unit and/or value");
+      alert("set_width() -> Not a valid unit and/or value");
       return false;
     }
     this.width = value;
+	this.base_element.style.width = this.get_width();
     return true;
   }
   this.get_width = function(){
@@ -186,7 +173,13 @@ function Window(window_id){
 	  alert("Not a valid unit and/or value");
 	  return false;
 	}
+	if((parseInt(this.get_ypos()) + parseInt(this.get_height())) > parseInt(browser.height))
+	{
+	  this.height = (parseInt(browser.height) - parseInt(this.get_ypos())) + "px";
+	  return true;
+	}
 	this.height = value;
+	this.window_cont.style.height = this.get_height()
 	return true;
   }
   this.get_height = function(){
@@ -211,7 +204,10 @@ function Window(window_id){
   this.close = function(){
     if(this.enable_close)
     {
-      $(this.base_element).fadeOut(400);
+      this.hide();
+	  // remove these elements from the DOM
+	  // free up any memory this object holds
+	  // inform the window_manager this window has closed so it can tidy uit self up as well
 	  return true;
     }
 	return false;
@@ -405,31 +401,26 @@ function Window(window_id){
         break;
 	    case "WINDOW_STYLE":
 		  /* It may be nice to add in the abbility to lock the style so that when the XML is loaded, only content changes */
-          style_props = {}
 	      for(j = 0; j < node.childNodes.length; j = j + 1){
-            style = node.childNodes[j];
+		    style = node.childNodes[j];
             switch(style.nodeName)
             {
               case "#text":
               break;
               case "XPOS":
                 if(this.set_xpos(style.innerHTML)){
-                  style_props["left"] = this.get_xpos();
 				}
               break;
               case "YPOS":
                 if(this.set_ypos(style.innerHTML)){
-                  style_props["top"] = this.get_ypos();
 				}
               break;
 			  case "WIDTH":
 			    if(this.set_width(style.innerHTML)){
-				  style_props["width"] = this.get_width();
 				}
 		      break;
 			  case "HEIGHT":
 			    if(this.set_height(style.innerHTML)){
-				  style_props["height"] = this.get_width();
 				}
 		      break;
               default:
@@ -437,7 +428,6 @@ function Window(window_id){
               break;
             }
           }
-          $(this.base_element).animate( style_props , "250");
 	    break;
         case "CONTENT":
           this.window_cont.innerHTML = node.innerHTML;
@@ -448,11 +438,11 @@ function Window(window_id){
     }
   }
   this.display = function(){
-    this.base_element.style.display = "block";
+    $(this.base_element).animate({opacity:1},200)
 	return this;
   }
   this.hide = function(){
-    this.base_element.style.display = "none";
+    $(this.base_element).animate({opacity:0},200)
     return this;
   }
   this.drag_start = function(event){
@@ -461,8 +451,8 @@ function Window(window_id){
 	// that is part of this class, assing it the four variables, then as part of drag stop, clear all those varaibles to
 	// free space. Not sure what the more efficient option would be.
     Window_manager.store_current_mouse();
-    this.start_left = parseInt(this.base_element.style.left);
-    this.start_top = parseInt(this.base_element.style.top);
+    this.start_left = parseInt(this.get_xpos());
+    this.start_top = parseInt(this.get_ypos());
     // Capture mousemove and mouseup events on the page.
     document.getElementsByTagName("body")[0].setAttribute("onMouseMove", "Window_manager.windows[" + this.id + "].drag_go(event)");
     document.getElementsByTagName("body")[0].setAttribute("onMouseUp", "Window_manager.windows[" + this.id + "].drag_stop(event)");
@@ -470,9 +460,7 @@ function Window(window_id){
   this.drag_go = function(event){
     // Move drag element by the same amount the cursor has moved.
     this.set_xpos((this.start_left + Window_manager.get_cursor_x() - Window_manager.get_start_mouse_x()) + "px");
-	this.base_element.style.left = this.get_xpos();
 	this.set_ypos((this.start_top  + Window_manager.get_cursor_y() - Window_manager.get_start_mouse_y()) + "px");
-    this.base_element.style.top  = this.get_ypos();
   }
   this.drag_stop = function(event){
     // Stop capturing mousemove and mouseup events.
