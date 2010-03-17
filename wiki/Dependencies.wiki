@@ -1,0 +1,8 @@
+#summary Information about dependencies of this code
+#labels Featured,Phase-Requirements
+
+This library is currently uses Jquery, this allows for simpler selection of DOM elements and provides some nice bells and whistles with relative ease. when I started I took the latest version, which at the time was 1.4.2 The code may run with other versions, both older and newer.
+
+I have also made use of the SACK library developed by http://www.twilightuniverse.com/ this library seems to be fairly 'finished' now. The creator made it for a set purpose, kept it compact and simple. This web-windows uses version 1.6 of SACK.
+
+Apart from those two libraries of code, you should be fairly good to go. If you can't get this code to work, make sure you are using a compatible browser (I will try to make it more cross compatible, but it honestly is not such an issue for me, I use Chrome)
