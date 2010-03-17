@@ -211,7 +211,7 @@ function Window(window_id){
   this.close = function(){
     if(this.enable_close)
     {
-      $(this.base_element).fadeOut(400, function(){this.base_element.parentNode.removeChild(this.base_element);});
+      $(this.base_element).fadeOut(400);
 	  return true;
     }
 	return false;
