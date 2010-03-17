@@ -1,7 +1,15 @@
-#summary Start of wiki
+#summary Start here
 #labels Featured
 
-Look over the structure of the source code
+Web-Windows is a JavaScript library aimed at bring desktop windowing functionality to the browser. 
+
+=== Users ===
+
+If you are just wanting to use web-windows, you will need to make sure that you have downloaded all the files for it, as well as all of the [Dependencies dependencies]. At the moment, the code can only be retrieved from the repository. You can either use SVN to checkout the code (this also has the advantage of it being simpler to keep up-to-date) or just download the source. I do plan to wrap up the code to make it easier to download and use, I plan to have one version with just all the web-windows code in one file (as well as the CSS style sheet) and another file that has also got the codependencies wrapped into it. The latter would mean just one file to include web page. 
+
+=== Developers ===
+
+If you are interested in helping with the source code, or just curious, the following pages document how the code works.
 
 [JSbrowser browser.js]
 
