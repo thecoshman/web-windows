@@ -208,6 +208,7 @@ function Window(window_id){
     if(this.enable_close)
     {
       this.hide();
+	  this.base_element.parentNode.removeChild(this.base_element);
 	  // remove these elements from the DOM
 	  // free up any memory this object holds
 	  // inform the window_manager this window has closed so it can tidy uit self up as well
