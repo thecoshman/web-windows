@@ -33,6 +33,7 @@ function Window(window_id){
   this.zindex = 0;
   this.start_left = 0;
   this.start_top = 0;
+  this.position_lock = false;
 
   /* code for creating the DOM structure */{
   var tbody = document.getElementsByTagName("body")[0];
@@ -87,6 +88,7 @@ function Window(window_id){
     return this.zindex;
   }
   this.set_xpos = function(value){
+    if(this.possition_lock){ return false; }
     if(value == "auto"){
       alert("Currently not sure how to handle a 'left' value being set to auto, this it is not set");
       return false;
@@ -116,6 +118,7 @@ function Window(window_id){
     return this.xpos;
   }
   this.set_ypos = function(value){
+    if(this.possition_lock){ return false; }
     if(value == "auto")
     {
       alert("Currently not sure how to deal with a 'left' value being set to auto, this it is not set");
@@ -232,6 +235,8 @@ function Window(window_id){
       break;
     }
   }
+  this.lock_position = function(){ this.position_lock = true; return this; }
+  this.unlock_position = function(){ this.position_lock = false; return this; }
   /* 
   / This function is used for setting specific attributes of the window, not general attributes like
   / the with the standatrd javascript DOM function setAttribute();
