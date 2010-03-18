@@ -441,6 +441,7 @@ function Window(window_id){
           alert("Unknown element for page : " + node.nodeName);
       }
     }
+	this.window_cont_buffer.innerHTML = "";
   }
   this.display = function(){
     $(this.base_element).animate({opacity:1},200)
