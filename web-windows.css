@@ -90,6 +90,10 @@ margin:2px 4px 0px 0px;
 width:13px;
 height:13px;
 }
+div.window_close{
+background:url('cross.png') no-repeat top left;
+
+}
 div.window_close:hover{
 background-color:rgb(255,50,50);
 border-color:rgb(100,0,0);
