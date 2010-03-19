@@ -45,7 +45,8 @@ function Window(window_id){
 
     this.window_bar = document.createElement('div');
     this.window_bar.className = "window_bar";
-    this.window_bar.setAttribute("onmousedown", "Window_manager.windows[" + this.id + "].drag_start(event)");
+    this.window_bar.setAttribute("ondragstart", "return false;");
+    this.window_bar.setAttribute("onmousedown", "Window_manager.windows[" + this.id + "].drag_start(event); return false");
     this.window_bar.setAttribute("ondblclick", "Window_manager.windows[" + this.id + "].roll()");
     this.base_element.appendChild(this.window_bar);
 
@@ -469,11 +470,13 @@ function Window(window_id){
     // Move drag element by the same amount the cursor has moved.
     this.set_xpos((this.start_left + Window_manager.get_cursor_x() - Window_manager.get_start_mouse_x()) + "px");
 	this.set_ypos((this.start_top  + Window_manager.get_cursor_y() - Window_manager.get_start_mouse_y()) + "px");
+	return false;
   }
   this.drag_stop = function(event){
     // Stop capturing mousemove and mouseup events.
     document.getElementsByTagName("body")[0].setAttribute("onMouseMove", "");
     document.getElementsByTagName("body")[0].setAttribute("onMouseUp", "");
+	return false;
   }
   return true;
 }
