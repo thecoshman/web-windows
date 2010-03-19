@@ -463,6 +463,7 @@ function Window(window_id){
     // Capture mousemove and mouseup events on the page.
     document.getElementsByTagName("body")[0].setAttribute("onMouseMove", "Window_manager.windows[" + this.id + "].drag_go(event)");
     document.getElementsByTagName("body")[0].setAttribute("onMouseUp", "Window_manager.windows[" + this.id + "].drag_stop(event)");
+	return false;
   }
   this.drag_go = function(event){
     // Move drag element by the same amount the cursor has moved.
