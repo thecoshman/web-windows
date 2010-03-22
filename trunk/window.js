@@ -151,7 +151,9 @@ function Window(window_id){
   this.set_width = function(value){
     if(value == "auto")
 	{
-	  this.width = "auto";
+	  this.width = "auto"; 
+	  /* We could now use innerwidth or something like that to determine the actaull width
+	   But as most of the time, we would then load content, the width would no longer be correct*/
       return true;
     }
     if(isNaN(parseInt(value)) || !get_unit(value))
@@ -194,6 +196,11 @@ function Window(window_id){
     {
       return false;
     }
+	if(this.get_width() == "auto")
+	{
+	  // locks that widt to a set amount, thus stopping the title bar shrinking when rolled 
+	  this.set_width(this.window_cont.offsetWidth + "px");
+	}
 	$(this.window_cont).slideToggle("normal");
     if(this.rolled)
     {
