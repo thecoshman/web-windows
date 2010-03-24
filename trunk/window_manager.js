@@ -59,31 +59,10 @@ function Window_manager(){
     }
     return true;
   }
-  this.get_cursor_x = function(){
-    if (browser.isIE){
-      return window.event.clientX + document.documentElement.scrollLeft + document.body.scrollLeft;
-    }
-    if (browser.isNS){
-      return event.clientX + window.scrollX;
-    }
-  }
-  this.get_cursor_y = function(){
-    if (browser.isIE){
-      return window.event.clientY + document.documentElement.scrollTop  + document.body.scrollTop;
-    }
-    if (browser.isNS){
-      return event.clientY + window.scrollY;
-    }
-  }
-  this.store_current_mouse = function(){
-    if (browser.isIE){
-      this.cursor_start_x = window.event.clientX + document.documentElement.scrollLeft + document.body.scrollLeft;
-      this.cursor_start_y = window.event.clientY + document.documentElement.scrollTop  + document.body.scrollTop;
-    }
-    if (browser.isNS){
-      this.cursor_start_x = event.clientX + window.scrollX;
-      this.cursor_start_y = event.clientY + window.scrollY;
-    }
+
+  this.store_current_mouse = function(e){
+    this.cursor_start_x = browser.get_mouse_x(e);
+    this.cursor_start_y = browser.get_mouse_y(e);
   }
   this.get_start_mouse_x = function(){
     return this.cursor_start_x;

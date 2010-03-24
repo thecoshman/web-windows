@@ -57,20 +57,20 @@ function Browser(){
   this.get_height = function(){
     return this.height;
   }
-  this.get_mouse_x = function(){
+  this.get_mouse_x = function(e){
     if (browser.isIE){
-      return window.event.clientX + document.documentElement.scrollLeft + document.body.scrollLeft;
+      return window.e.clientX + document.documentElement.scrollLeft + document.body.scrollLeft;
     }
     if (browser.isNS){
-      return event.clientX + window.scrollX;
+      return e.clientX + window.scrollX;
     }
   }
-  this.get_mouse_y = function(){
+  this.get_mouse_y = function(e){
     if (browser.isIE){
-      return window.event.clientY + document.documentElement.scrollTop  + document.body.scrollTop;
+      return window.e.clientY + document.documentElement.scrollTop  + document.body.scrollTop;
     }
     if (browser.isNS){
-      return event.clientY + window.scrollY;
+      return e.clientY + window.scrollY;
     }
   } 
   ua = navigator.userAgent;

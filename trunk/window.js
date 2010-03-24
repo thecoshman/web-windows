@@ -345,10 +345,14 @@ function Window(window_id){
     on_change("window_" + this.id + "_cont_buffer", "", 'document.getElementById("window_' + this.id + '_cont").innerHTML = document.getElementById("window_' + this.id + '_cont_buffer").innerHTML; document.getElementById("window_' + this.id + '_cont_buffer").innerHTML = "" ');
 	return this;
   }
-  this.load_xml = function(path_to_file, post_data){
+  this.load_xml = function(path_to_file, post_data, param){
     this.window_cont.innerHTML = "<p>Loading Content . . .</p>";
     this.load_to_buffer(path_to_file, post_data);
-    on_change("window_" + this.id + "_cont_buffer", "", 'Window_manager.windows[' + this.id + '].parse_xml()');
+    if(param !== undefined)
+	{
+      alert("Load_xml : " + param);
+	}
+    on_change("window_" + this.id + "_cont_buffer", "", "Window_manager.windows[" + this.id + "].parse_xml()");
 	return this;
   }
   this.load_to_buffer = function(path_to_file, post_data){
@@ -366,89 +370,74 @@ function Window(window_id){
     ajax.runAJAX(post_data);
   }
   this.parse_xml = function(){
-    if(this.window_cont_buffer.childNodes[0].nodeName != "PAGE")
+    var page_tag = this.window_cont_buffer.getElementsByTagName("page")[0];
+    if(!page_tag)
     {
-      return;
+	  alert("Error : The XML file that was loaded did not contain a page tag");
+      return false;
     }
-    for(i = 0; i < this.window_cont_buffer.childNodes[0].childNodes.length; i = i + 1)
-    {
-      node = this.window_cont_buffer.childNodes[0].childNodes[i];
-      switch(node.nodeName)
-      {
-        case "#text":
-        break;
-        case "WINDOW_TITLE":
-		  this.title = node.innerHTML;
-		  this.window_title.innerHTML = this.title;
-        break;
-        case "CONTROLS":
-          for(j = 0; j < node.childNodes.length; j = j + 1){
-            control = node.childNodes[j];
-            switch(control.nodeName)
-            {
-              case "#text":
-              break;
-              case "ROLL":
-                if(control.innerHTML == "enable")
-                {
-                  this.enable_control("roll");
-                }
-                else if(control.innerHTML == "disable")
-                {
-                  this.disable_control("roll");
-                }
-              break;
-              case "CLOSE":
-                if(control.innerHTML == "enable")
-                {
-                  this.enable_control("close");
-                }
-                else if(control.innerHTML == "disable")
-                {
-                  this.disable_control("close");
-		}
-              break;
-              default:
-                alert("Unknown control : " + control.nodeName);
-            }
-          }
-        break;
-	    case "WINDOW_STYLE":
-		  /* It may be nice to add in the abbility to lock the style so that when the XML is loaded, only content changes */
-	      for(j = 0; j < node.childNodes.length; j = j + 1){
-		    style = node.childNodes[j];
-            switch(style.nodeName)
-            {
-              case "#text":
-              break;
-              case "XPOS":
-                if(this.set_xpos(style.innerHTML)){
-				}
-              break;
-              case "YPOS":
-                if(this.set_ypos(style.innerHTML)){
-				}
-              break;
-			  case "WIDTH":
-			    if(this.set_width(style.innerHTML)){
-				}
-		      break;
-			  case "HEIGHT":
-			    if(this.set_height(style.innerHTML)){
-				}
-		      break;
-              default:
-                alert("Unknown window style property:" + style.nodeName);
-              break;
-            }
-          }
-	    break;
-        case "CONTENT":
-          this.window_cont.innerHTML = node.innerHTML;
-        break;
-        default:
-          alert("Unknown element for page : " + node.nodeName);
-      }
+	var title_tag = page_tag.getElementsByTagName("window_title")[0]; 
+	if(title_tag)
+	{
+      this.title = title_tag.innerHTML;
+	  this.window_title.innerHTML = this.title;
+	}
+	var controls_tag = page_tag.getElementsByTagName("controls")[0];
+	if(controls_tag)
+	{
+	  var roll_tag = controls_tag.getElementsByTagName("roll")[0];
+	  if(roll_tag)
+	  {
+		if(roll_tag.innerHTML == "enable")
+        {
+          this.enable_control("roll");
+        }
+          else if(roll_tag.innerHTML == "disable")
+        {
+          this.disable_control("roll");
+        }
+	  }
+	  var close_tag = controls_tag.getElementsByTagName("close")[0];
+	  if(close_tag)
+	  {
+		if(close_tag.innerHTML == "enable")
+        {
+          this.enable_control("close");
+        }
+          else if(close_tag.innerHTML == "disable")
+        {
+          this.disable_control("close");
+        }
+	  }
+	}
+    var style_tag = page_tag.getElementsByTagName("window_style")[0];
+	if(style_tag)
+	{
+	  var width_tag = style_tag.getElementsByTagName("width")[0];
+	  if(width_tag)
+	  {
+	    this.set_width(width_tag.innerHTML);
+	  }
+	  var height_tag = style_tag.getElementsByTagName("height")[0];
+	  if(height_tag)
+	  {
+	    this.set_height(height_tag.innerHTML);
+	  }
+	  var xpos_tag = style_tag.getElementsByTagName("xpos")[0];
+	  if(xpos_tag)
+	  {
+	    this.set_xpos(xpos_tag.innerHTML);
+	  }
+	  var ypos_tag = style_tag.getElementsByTagName("ypos")[0];
+	  if(ypos_tag)
+	  {
+	    this.set_ypos(ypos_tag.innerHTML);
+	  }
+	}
+	var content_tag = page_tag.getElementsByTagName("content")[0];
+	if(content_tag)
+	{
+	  this.window_cont.innerHTML = content_tag.innerHTML;
     }
 	this.window_cont_buffer.innerHTML = "";
   }
@@ -460,12 +449,12 @@ function Window(window_id){
     $(this.base_element).animate({opacity:0},200)
     return this;
   }
-  this.drag_start = function(event){
+  this.drag_start = function(e){
     // store current veriables
 	// ATM the starting mouse possition is stored as part of the window manager, maybe we should create an object
 	// that is part of this class, assing it the four variables, then as part of drag stop, clear all those varaibles to
 	// free space. Not sure what the more efficient option would be.
-    Window_manager.store_current_mouse();
+    Window_manager.store_current_mouse(e);
     this.start_left = parseInt(this.get_xpos());
     this.start_top = parseInt(this.get_ypos());
     // Capture mousemove and mouseup events on the page.
@@ -473,13 +462,13 @@ function Window(window_id){
     document.getElementsByTagName("body")[0].setAttribute("onMouseUp", "Window_manager.windows[" + this.id + "].drag_stop(event)");
 	return false;
   }
-  this.drag_go = function(event){
+  this.drag_go = function(e){
     // Move drag element by the same amount the cursor has moved.
-    this.set_xpos((this.start_left + Window_manager.get_cursor_x() - Window_manager.get_start_mouse_x()) + "px");
-	this.set_ypos((this.start_top  + Window_manager.get_cursor_y() - Window_manager.get_start_mouse_y()) + "px");
+    this.set_xpos((this.start_left + browser.get_mouse_x(e) - Window_manager.get_start_mouse_x()) + "px");
+	this.set_ypos((this.start_top  + browser.get_mouse_y(e) - Window_manager.get_start_mouse_y()) + "px");
 	return false;
   }
-  this.drag_stop = function(event){
+  this.drag_stop = function(e){
     // Stop capturing mousemove and mouseup events.
     document.getElementsByTagName("body")[0].setAttribute("onMouseMove", "");
     document.getElementsByTagName("body")[0].setAttribute("onMouseUp", "");
