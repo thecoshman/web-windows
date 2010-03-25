@@ -1,4 +1,5 @@
 #summary explanation of browser.js
+#labels Phase-Implementation
 
 This source file is used to provide data about the browser in which the web-windows page is running. This file contains the definition of the Browser class, it the initiates it as an object called browser and calls an initialising function.
 
@@ -7,5 +8,7 @@ Pay attention to the fact the width and height values that this class work with 
 || `calculate_width_height()` || This function works out what the width and height of the browser are. ||
 || `get_width()` || returns the width of the browser window ||
 || `get_height()` || returns the height of the browser window ||
-|| `get_mouse_x()` || returns the distance from the left of the mouse ||
-|| `get_mouse_y()` || returns that distance from the top of the mouse  ||
+|| `get_mouse_x(e)` || returns the distance from the left of the mouse. You need to pass it the 'event' ||
+|| `get_mouse_y(e)` || returns that distance from the top of the mouse. You need to pass it the 'event'  ||
+
+This file creates and sets up an instance of Browser called 'browser' - This should not be changed as other code in the library depends on this object.
