@@ -348,11 +348,11 @@ function Window(window_id){
   this.load_xml = function(path_to_file, post_data, param){
     this.window_cont.innerHTML = "<p>Loading Content . . .</p>";
     this.load_to_buffer(path_to_file, post_data);
-    if(param !== undefined)
-	{
-      alert("Load_xml : " + param);
+	if(param === undefined)
+	{}else{
+	  alert(param.xpos);
 	}
-    on_change("window_" + this.id + "_cont_buffer", "", "Window_manager.windows[" + this.id + "].parse_xml()");
+    on_change("window_" + this.id + "_cont_buffer", "", "Window_manager.windows[" + this.id + "].parse_xml(" + param + ")");
 	return this;
   }
   this.load_to_buffer = function(path_to_file, post_data){
@@ -369,7 +369,11 @@ function Window(window_id){
 	}
     ajax.runAJAX(post_data);
   }
-  this.parse_xml = function(){
+  this.parse_xml = function(param){
+	if(param === undefined)
+	{}else{
+	  alert(param.xpos);
+	}
     var page_tag = this.window_cont_buffer.getElementsByTagName("page")[0];
     if(!page_tag)
     {
