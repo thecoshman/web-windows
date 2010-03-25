@@ -1,0 +1,15 @@
+#summary One-sentence summary of this page.
+#labels Phase-Design
+
+This file contains the bulk of what this library is. It provides functionality for each window. The code could do with being updated, having functions re-named to provide more consistent and sensible names. This also contains a few extra functions that should be moved out, But I have not yet got around to.
+
+|| `set_zindex(new_zindex)` || Checks to see if the new zindex is free, if it is will apply it to it self. Returns true on success ||
+|| `get_zindex()` || Returns the current zindex for this window ||
+|| `set_xpos(value)` || Accepts a string formated like a standard CSS value, eg 23px, 90%, 2in. If the string is 'center' (Should be amended to 'centre') calculates the value needed to centre the window in the x-axis, this value is stored in px. Performs checks to make sure the window dose not go off the left or right of the browser area. Finally applies the style to the base_element. Returns true on success. Currently dose not handle 'auto' - How should this work? ||
+|| `get_xpos()` || Returns the current xpos, as a string. This includes the CSS unit. Note that if the xpos was set to 'centre' the calculated value will be returned, the fact that it was centred is lost. ||
+|| `set_ypos(value)` || Accepts a string formated like a standard CSS value, eg 23px, 90%, 2in. If the string is 'center' (Should be amended to 'centre') calculates the value needed to centre the window in the y-axis. Performs checks to make sure the window dose not go off the top of the browser area. Finally applies the style to the base_element. Returns true on success. Currently dose not handle 'auto' - How should this work? ||
+|| `get_ypos()` || Returns the current ypos, as a string. This includes the CSS unit. Note that if the ypos was set to 'centre' the calculated value will be returned, the fact that it was centred is lost. ||
+|| `set_width(value)` || Accepts a string formatted like a standard CSS value, eg 23px, 90%, 2in. Can even handle a width set to 'auto'. A check is performed to make sure that a proper number and unit has been passed in. Returns true on success ||
+|| `get_width()` || Returns the current width as a string. This will include both value and unit, or may be 'auto' if that is what was set ||
+
+WIP
